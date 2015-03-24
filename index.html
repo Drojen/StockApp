@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html ng-app="StockApp" lang="en">
+<head>
+    <!-- meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- title -->
+    <title>Stockorithm - The Entry Point Predictor</title>
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400|Montserrat:400' rel='stylesheet' type='text/css'>
+    <link href="css/stockapp-base.css" rel="stylesheet">
+    
+    <!-- scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-route.min.js"></script>
+    <script src="js/stockapp.js"></script>
+    <script type="text/javascript" src="https://stocktwits.com/addon/widget/2/widget-loader.min.js"></script>
+
+    <!--  Don't use....  <script src="js/stock_listing.js"></script>
+                         <script type="text/javascript" src="https://stocktwits.com/addon/widget/2/widget-loader.min.js"></script>    
+    
+    -->
+    <!-- /scripts -->
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+<body>
+
+    <!-- navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <!--
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                -->
+                <a class="navbar-brand" href="index.html">Stockorithm</a>
+            </div>
+            <div class="navbar-collapse navbar-right collapse no-transition">
+                <ul class="nav navbar-nav">
+                    <!-- <li ng-class="{ active:nav.isActive('/analyze')}"><a href="index.html" data-toggle="collapse" data-target=".navbar-collapse">Analyze</a></li>
+                    <li ng-class="{ active:nav.isActive('/history')}"><a href="#/history" data-toggle="collapse" data-target=".navbar-collapse">History</a></li>
+                    <li ng-class="{ active:nav.isActive('/about')}"><a href="#/about" data-toggle="collapse" data-target=".navbar-collapse">About</a></li>
+                    <li ng-class="{ active:nav.isActive('/contact')}"><a href="#/contact" data-toggle="collapse" data-target=".navbar-collapse">Contact</a></li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /navbar -->
+    <div ng-controller="AnalyzeCtrl as analyze">
+     <div class="container-fluid text-center analyze-form search-gradient">
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+            <div class="container">
+                <form ng-submit="analyze.getStock()" id="stock-search-form">
+                    <div class="input-group">
+                        <input type="text" class="form-control input-stock-symbol" placeholder="Enter company symbol or name" ng-model="symbol" ng-focus="analyze.clearInput()" ng-click="analyze.clearInput()" id="symbol" />
+                        <span class="input-group-btn">
+                            <button ng-click="analyze.getStock()" class="btn btn-success" type="button"> Search </button>
+                        </span>
+                    </div>
+                </form>
+
+                <div id="picker" class="search-listing text-left" ng-show="analyze.showSearchListHTML">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="item in analyze.searchListing" class="list-item"><a href="" ng-click="analyze.pickSearchList(item)">{{item.name}}</a> <small class="grey">{{item.exchange}}:{{item.symbol}}</small></li>
+                    </ul>
+                </div>
+
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" ng-show="analyze.showAnalysis">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <h2>{{analyze.niceName}}<small> {{analyze.yahoo.StockExchange}}:{{analyze.displaySymbol}}</small></h2>
+                    <h1> {{analyze.yahoo.LastTradePriceOnly | currency}} <small><span id="price-wrapper"><span id="price-glyph"></span> {{analyze.yahoo.Change}} ({{analyze.yahoo.PercentChange}})</span></small></h1>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr><td class="stock-info-cat">Open:</td><td class="stock-info-data">{{analyze.yahoo.Open == null ? 'N/A' : '$' + analyze.yahoo.Open}}</td></tr>
+                        <tr><td class="stock-info-cat">Day's Range:</td><td class="stock-info-data">{{analyze.yahoo.DaysLow == null ? 'N/A' : '$' + analyze.yahoo.DaysLow}} - {{analyze.yahoo.DaysHigh == null ? 'N/A' : '$' + analyze.yahoo.DaysHigh}}</td></tr>
+                        <tr><td class="stock-info-cat">52wk Range:</td><td class="stock-info-data">{{'$' + analyze.yahoo.YearLow}} - {{'$' + analyze.yahoo.YearHigh}}</td></tr>
+                        <tr><td class="stock-info-cat">P/E:</td><td class="stock-info-data">{{analyze.yahoo.PERatio == null ? 0 : analyze.yahoo.PERatio | number}}</td></tr>                    
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr><td class="stock-info-cat">% Change from Year High:</td><td class="stock-info-data">{{analyze.yahoo.PercebtChangeFromYearHigh}}</td></tr>
+                        <tr><td class="stock-info-cat">% Change from Year Low:</td><td class="stock-info-data">{{analyze.yahoo.PercentChangeFromYearLow}}</td></tr>                        
+                        <tr><td class="stock-info-cat">Volume:</td><td class="stock-info-data">{{analyze.yahoo.Volume | number}}</td></tr>
+                        <tr><td class="stock-info-cat">Average Volume:</td><td class="stock-info-data">{{analyze.yahoo.AverageDailyVolume | number}}</td></tr>
+                    </tbody>
+                </table>                
+            </div>
+            <div class="col-md-4">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr><td class="stock-info-cat">Market Cap:</td><td class="stock-info-data">${{analyze.yahoo.MarketCapitalization}}</td></tr>
+                        <tr><td class="stock-info-cat">EBITDA:</td><td class="stock-info-data">{{'$' + analyze.yahoo.EBITDA}}</td></tr>
+                        <tr><td class="stock-info-cat">EPS:</td><td class="stock-info-data">{{'$' + analyze.yahoo.EarningsShare}}</td></tr>
+                        <tr><td class="stock-info-cat">Dividend/Yield:</td><td class="stock-info-data">{{analyze.yahoo.DividendShare == null ? 0 : '$' + analyze.yahoo.DividendShare}} ({{analyze.yahoo.DividendShare == null? 0 : analyze.yahoo.DividendShare / analyze.yahoo.LastTradePriceOnly * 100 | number:2}}%)</td></tr>
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Stock Twits Feed</h3>
+                <div id="stocktwits-widget-news"></div>
+            </div>
+            <div class="col-md-8">
+                <h3>Recent Tweets for ${{analyze.displaySymbol}}</h3>
+                <div class="twitter-feed-wrapper">
+                    
+                    <div ng-repeat="tweet in analyze.twitterFeed" class="tweet-container">
+                        <div class="tweet-avatar"><img ng-src="{{tweet.user.profile_image_url_https}}" class="avatar-img"></div>
+                        <div class="tweet-body">
+                            <b>{{tweet.user.name}}</b> <a ng-href="http://twitter.com/{{tweet.user.screen_name}}">{{'@' + tweet.user.screen_name}}</a>
+                            <p>{{tweet.text}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+      </div><!-- /analyze container -->
+    </div>
+    
+    <!-- footer -->   
+    <div class="container">
+        <footer>
+        <hr>
+            <p>&copy; Stockorithm <script type="text/javascript"> var d = new Date(); document.write(d.getFullYear()); </script></p>
+        </footer>
+    </div>
+    <!-- /footer -->
+    
+</body>
+</html>

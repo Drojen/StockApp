@@ -1,0 +1,94 @@
+/*
+ Base CSS
+*/
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+}
+.home-splash {
+    background: url(../img/clouds.jpg) top no-repeat;
+    color: #222;
+}
+.shim-top {
+    padding-top: 50px;
+}
+.input-stock-symbol {
+    display: inline-block;
+}
+.button-stock-symbol {
+    vertical-align: top;
+}
+.analyze-form {
+    padding-top: 65px;
+    padding-bottom: 15px;
+}
+.search-gradient {
+    background: #eee;
+}
+.no-transition { /* To eliminate bootstrap transition for navbar */
+  -webkit-transition: height 0.01s;
+  -moz-transition: height 0.01s;
+  -ms-transition: height 0.01s;
+  -o-transition: height 0.01s;
+  transition: height 0.01s;
+}
+.negative {
+    color: #b33;
+}
+.positive {
+    color: #3b3;
+}
+.size-glyph {
+    font-size: 22px;
+}
+.stock-info-cat {
+    color: #444;
+}
+.stock-info-data {
+    text-align: right;
+}
+.grey {
+    color: #999;
+}
+.search-listing {
+    background-color: #fff;
+    padding-bottom: 1px;
+    margin: 0px 4px 0px 4px;
+    border-radius: 0px 0px 4px 4px;
+    -webkit-box-shadow: inset 0px 2px 4px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: inset 0px 2px 4px 0px rgba(0,0,0,0.2);
+    box-shadow: inset 0px 2px 4px 0px rgba(0,0,0,0.2);
+}
+.list-item {
+    padding: 6px 8px 0px 12px;
+}
+.tweet-container {
+    display: table;
+    border-bottom: #ddd solid 1px;
+    padding: 10px;
+    padding-right: 8px;
+    margin-bottom: 8px;
+    width: 100%;
+}
+.tweet-avatar {
+    display: table-cell;
+    width: 48px;
+    padding-right: 8px;
+    vertical-align: top;
+}
+.tweet-body {
+    display: table-cell;
+    font-family: 'Open Sans', sans-serif;
+    vertical-align: top;
+}
+.avatar-img {
+	border-radius: 6px 6px 6px 6px;
+}
+.twitter-feed-wrapper {
+    border: #ddd solid 1px;
+    height: 299px;
+    overflow: auto;
+}
+

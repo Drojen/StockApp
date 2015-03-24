@@ -1,0 +1,91 @@
+
+    <div class="container-fluid text-center analyze-form search-gradient">
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+            <div class="container">
+                <form ng-submit="analyze.getStock()" id="stock-search-form">
+                    <div class="input-group">
+                        <input type="text" class="form-control input-stock-symbol" placeholder="Enter company symbol or name" ng-model="symbol" ng-focus="analyze.clearInput()" ng-click="analyze.clearInput()" id="symbol" />
+                        <span class="input-group-btn">
+                            <button ng-click="analyze.getStock()" class="btn btn-success" type="button">Go</button>
+                        </span>
+                    </div>
+                </form>
+
+                <div id="picker" class="search-listing text-left" ng-show="analyze.showSearchListHTML">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="item in analyze.searchListing" class="list-item"><a href="" ng-click="analyze.pickSearchList(item)">{{item.name}}</a> <small class="grey">{{item.exchange}}:{{item.symbol}}</small></li>
+                    </ul>
+                </div>
+
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" ng-show="analyze.showAnalysis">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <h2>{{analyze.niceName}}<small> {{analyze.yahoo.StockExchange}}:{{analyze.displaySymbol}}</small></h2>
+                    <h1> {{analyze.yahoo.LastTradePriceOnly | currency}} <small><span id="price-wrapper"><span id="price-glyph"></span> {{analyze.yahoo.Change}} ({{analyze.yahoo.PercentChange}})</span></small></h1>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr><td class="stock-info-cat">Open:</td><td class="stock-info-data">{{analyze.yahoo.Open == null ? 'N/A' : '$' + analyze.yahoo.Open}}</td></tr>
+                        <tr><td class="stock-info-cat">Day's Range:</td><td class="stock-info-data">{{analyze.yahoo.DaysLow == null ? 'N/A' : '$' + analyze.yahoo.DaysLow}} - {{analyze.yahoo.DaysHigh == null ? 'N/A' : '$' + analyze.yahoo.DaysHigh}}</td></tr>
+                        <tr><td class="stock-info-cat">52wk Range:</td><td class="stock-info-data">{{'$' + analyze.yahoo.YearLow}} - {{'$' + analyze.yahoo.YearHigh}}</td></tr>
+                        <tr><td class="stock-info-cat">P/E:</td><td class="stock-info-data">{{analyze.yahoo.PERatio == null ? 0 : analyze.yahoo.PERatio | number}}</td></tr>                    
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr><td class="stock-info-cat">% Change from Year High:</td><td class="stock-info-data">{{analyze.yahoo.PercebtChangeFromYearHigh}}</td></tr>
+                        <tr><td class="stock-info-cat">% Change from Year Low:</td><td class="stock-info-data">{{analyze.yahoo.PercentChangeFromYearLow}}</td></tr>                        
+                        <tr><td class="stock-info-cat">Volume:</td><td class="stock-info-data">{{analyze.yahoo.Volume | number}}</td></tr>
+                        <tr><td class="stock-info-cat">Average Volume:</td><td class="stock-info-data">{{analyze.yahoo.AverageDailyVolume | number}}</td></tr>
+                    </tbody>
+                </table>                
+            </div>
+            <div class="col-md-4">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr><td class="stock-info-cat">Market Cap:</td><td class="stock-info-data">${{analyze.yahoo.MarketCapitalization}}</td></tr>
+                        <tr><td class="stock-info-cat">EBITDA:</td><td class="stock-info-data">{{'$' + analyze.yahoo.EBITDA}}</td></tr>
+                        <tr><td class="stock-info-cat">EPS:</td><td class="stock-info-data">{{'$' + analyze.yahoo.EarningsShare}}</td></tr>
+                        <tr><td class="stock-info-cat">Dividend/Yield:</td><td class="stock-info-data">{{analyze.yahoo.DividendShare == null ? 0 : '$' + analyze.yahoo.DividendShare}} ({{analyze.yahoo.DividendShare == null? 0 : analyze.yahoo.DividendShare / analyze.yahoo.LastTradePriceOnly * 100 | number:2}}%)</td></tr>
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Stock Twits Feed</h3>
+                <div id="stocktwits-widget-news"></div>
+            </div>
+            <div class="col-md-8">
+                <h3>Recent Tweets for ${{analyze.displaySymbol}}</h3>
+                <div class="twitter-feed-wrapper">
+                    
+                    <div ng-repeat="tweet in analyze.twitterFeed" class="tweet-container">
+                        <div class="tweet-avatar"><img ng-src="{{tweet.user.profile_image_url_https}}" class="avatar-img"></div>
+                        <div class="tweet-body">
+                            <b>{{tweet.user.name}}</b> <a ng-href="http://twitter.com/{{tweet.user.screen_name}}">{{'@' + tweet.user.screen_name}}</a>
+                            <p>{{tweet.text}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+    </div><!-- /analyze container -->
+  
+        
+        
